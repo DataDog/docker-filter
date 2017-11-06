@@ -1,0 +1,23 @@
+version: '2.1'
+
+volumes:
+  safe-socket:
+
+services:
+  dockerproxy:
+    image: datadog/docker-filter
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - safe-socket:/safe-socket:rw
+    network_mode: "none"
+    restart: always
+
+  agent5:
+    image: "datadog/docker-dd-agent:latest-alpine"
+    volumes:
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+      - safe-socket:/var/run:ro
+    environment:
+      DD_API_KEY: XXXXXX
+    restart: always

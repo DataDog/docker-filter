@@ -1,0 +1,9 @@
+FROM haproxy:1.7-alpine
+COPY haproxy.cfg url-whitelist.lst /usr/local/etc/haproxy/
+
+HEALTHCHECK --interval=5m --timeout=2s \
+  CMD ls /safe-socket/docker.sock
+
+## Uncomment for debugging to stdout
+#CMD ["haproxy", "-d", "-db", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
+#ENTRYPOINT []

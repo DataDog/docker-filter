@@ -1,0 +1,19 @@
+version: '2.1'
+
+volumes:
+  safe-socket:
+
+services:
+  dockerproxy:
+    build: ./../docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - safe-socket:/safe-socket:rw
+    network_mode: "none"
+  test:
+    build: .
+    volumes:
+      - safe-socket:/var/run:ro
+    depends_on:
+      dockerproxy:
+        condition: service_healthy

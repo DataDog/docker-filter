@@ -1,0 +1,18 @@
+version: 2
+
+jobs:
+  integration-test:
+    docker:
+      - image: circleci/python:2.7
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          command: |
+            ./run_tests.sh
+
+workflows:
+  version: 2
+  testing:
+    jobs:
+      - integration-test
