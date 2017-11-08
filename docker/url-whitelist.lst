@@ -2,6 +2,10 @@
 ^\/v[0-9.]+\/info$
 ^\/v[0-9.]+\/version$
 
+^\/_ping$
+^\/info$
+^\/version$
+
 ^\/v[0-9.]+\/containers\/json$
 ^\/v[0-9.]+\/containers\/[0-9a-z]+\/json$
 ^\/v[0-9.]+\/containers\/[0-9a-z]+\/logs$
