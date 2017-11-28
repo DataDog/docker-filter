@@ -1,6 +1,8 @@
 import unittest
 import docker
 import re
+import time
+from multiprocessing import Process
 
 
 # Main class
@@ -121,6 +123,37 @@ class TestDocker403(dockerTest):
     @assert403
     def test_secret_get(self):
         self.client.secrets.get("dummy")
+
+
+# Testing we don't timeout on the events and logs endpoints
+class TestDockerNoTimeout(dockerTest):
+    def setUp(self):
+        self.client = docker.from_env(timeout=60)
+
+    def consume_generator(self, gen):
+        for i in gen:
+            continue
+
+    def test_no_timeout(self):
+        event_filter = {"id": "invalidContainerIDNoEvents"}  # To make sure we collect no event
+        events_consumer = Process(target=self.consume_generator,
+                                  args=(self.client.events(filters=event_filter),))
+        events_consumer.daemon = True
+        events_consumer.start()
+
+        logs_consumer = Process(target=self.consume_generator,
+                                args=(self.my_inspect.logs(stream=True, follow=True),))
+        logs_consumer.daemon = True
+        logs_consumer.start()
+
+        # Make sure we don't EOF for 25 seconds
+        for i in range(1, 25):
+            time.sleep(1)
+            self.assertTrue(events_consumer.is_alive(), msg="events died after %s seconds" % (i))
+            self.assertTrue(logs_consumer.is_alive(), msg="logs died after %s seconds" % (i))
+
+        logs_consumer.terminate()
+        events_consumer.terminate()
 
 
 if __name__ == '__main__':

@@ -1,0 +1,2 @@
+^\/v[0-9.]+\/containers\/[0-9a-z]+\/logs$
+^\/v[0-9.]+\/events$

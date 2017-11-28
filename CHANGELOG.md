@@ -6,5 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+- Set timeout to one day on events and logs entrypoints to allow streaming
+- Increase maximum connection count to 512
+
+### Added
+- Separate dockerfile for debug-to-stdout variant
+
 ## [1.0.0] - 2017-11-13
 Initial release based on haproxy 1.7

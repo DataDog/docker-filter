@@ -5,7 +5,9 @@ volumes:
 
 services:
   dockerproxy:
-    build: ./../docker
+    build:
+      context: ./../docker
+      dockerfile: Dockerfile
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - safe-socket:/safe-socket:rw
