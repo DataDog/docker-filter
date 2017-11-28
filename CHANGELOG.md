@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.1.0] - 2017-11-28
 ### Changed
 - Set timeout to one day on events and logs entrypoints to allow streaming
 - Increase maximum connection count to 512
