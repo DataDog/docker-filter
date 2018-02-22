@@ -4,7 +4,7 @@ volumes:
   safe-socket:
 
 services:
-  dockerproxy:
+  filter:
     image: datadog/docker-filter
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -12,12 +12,13 @@ services:
     network_mode: "none"
     restart: always
 
-  agent5:
-    image: "datadog/docker-dd-agent:latest-alpine"
+  agent6:
+    image: "datadog/agent:latest"
     volumes:
       - /proc/:/host/proc/:ro
       - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
-      - safe-socket:/var/run:ro
+      - safe-socket:/var/run/docker-filter:ro
     environment:
       DD_API_KEY: XXXXXX
+      DOCKER_HOST: "unix:///var/run/docker-filter/docker.sock"
     restart: always
