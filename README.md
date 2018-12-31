@@ -16,7 +16,7 @@ The [authorization subsystem](https://docs.docker.com/engine/extend/plugins_auth
 - it requires SSL client certificate authentication, which is currently not supported on the unix socket, potentially breaking orchestrators and third party software assuming access to `/var/run/docker.sock`
 - it is not self-contained in the Docker engine, but requires the sysadmin to install and configure a third-party software
 - if no certificate chain is already setup, creating one for that use case is a big hurdle
- 
+
 This is why this container aims at providing a simpler solution.
 
 ## How?
@@ -27,3 +27,7 @@ The Docker management API is a standard [HTTP REST API](https://docs.docker.com/
 - passes URLs through a [whitelist](docker/url-whitelist.lst) to forbid access to endpoints that might be exploited to escalade access (attach via a websocket) or enable DoS attacks (disk/network intensive read-only operations)
 
 The remaining endpoints are deemed safe for use and are accessible on the safe socket. This socket can then be exposed to monitoring software.
+
+## Troubleshooting
+
+Inside the docker-filter container you should be able to access haproxy.sock, see https://www.datadoghq.com/blog/how-to-collect-haproxy-metrics/#socket-communication to know more about how to use it to troubleshoot haproxy.
