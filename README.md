@@ -1,8 +1,6 @@
 # Datadog Docker socket filter
 Filtering proxy for a read-only access to the Docker socket, based on [HAProxy](https://www.haproxy.org/).
 
-[![CircleCI](https://circleci.com/gh/DataDog/docker-filter/tree/master.svg?style=svg)](https://circleci.com/gh/DataDog/docker-filter/tree/master)
-
 ## Quick start
 
 See [sample docker-compose file](example.compose).
